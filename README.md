@@ -1,1 +1,1 @@
-# DICE-ROLLING
+# Statistics of rolling dice
