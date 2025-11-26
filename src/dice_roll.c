@@ -19,7 +19,7 @@ void draw_layout(void);
 
 float dice_count = 0;
 bool auto_roll = false;
-
+float number_of_rolls = 0;
 
 int main(void)
 {
@@ -29,7 +29,7 @@ int main(void)
 	InitWindow(1280, 720, "Distribution Vizualizer");
 	Texture2D* dice_sides = load_dice_sides("asserts/Dice Sides");
 	
-	Vector2 dice_image_position[6] = {{-10, 40}, {120, 40}, {460, 40}, {500, 40}, {520, 40}, {1500, 40}};
+	Vector2 dice_image_position[6] = {{10/0.6, 40}, {100/0.6, 40}, {200/0.6, 40}, {300/0.6, 40}, {400/0.6, 40}, {500/0.6, 40}};
 
 	SetWindowIcon(icon);
 	SetTargetFPS(60);
