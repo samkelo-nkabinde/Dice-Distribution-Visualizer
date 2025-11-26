@@ -100,7 +100,7 @@ Texture2D* load_dice_sides(const char* dir)
 	DIR* directory = opendir(".");
 	struct dirent* entry;
 	struct stat file_stat;
-	int i;
+	int i = -1;
 	while((entry = readdir(directory)) != NULL)
 	{
 		if(stat(entry->d_name, &file_stat) == 0 && S_ISREG(file_stat.st_mode))
