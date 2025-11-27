@@ -21,15 +21,17 @@ float dice_count = 0;
 bool auto_roll = false;
 float number_of_rolls = 0;
 
+float image_scale = 0.6f;
+
 int main(void)
 {
 	Image icon = LoadImage("asserts/icon.png");
 	Font font = LoadFont("asserts/Lato-Bold.ttf");
 
-	InitWindow(1280, 720, "Distribution Vizualizer");
+	InitWindow(1280, 720, "Dice Distribution Vizualizer");
 	Texture2D* dice_sides = load_dice_sides("asserts/Dice Sides");
 	
-	Vector2 dice_image_position[6] = {{10/0.6, 40}, {100/0.6, 40}, {200/0.6, 40}, {300/0.6, 40}, {400/0.6, 40}, {500/0.6, 40}};
+	Vector2 dice_image_position[6] = {{10/image_scale, 40}, {100/image_scale, 40}, {200/image_scale, 40}, {300/image_scale, 40}, {400/image_scale, 40}, {500/image_scale, 40}};
 
 	SetWindowIcon(icon);
 	SetTargetFPS(60);
@@ -100,7 +102,7 @@ Texture2D* load_dice_sides(const char* dir)
 	DIR* directory = opendir(".");
 	struct dirent* entry;
 	struct stat file_stat;
-	int i;
+	int i = -1;
 	while((entry = readdir(directory)) != NULL)
 	{
 		if(stat(entry->d_name, &file_stat) == 0 && S_ISREG(file_stat.st_mode))
