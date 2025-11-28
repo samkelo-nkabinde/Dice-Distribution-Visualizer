@@ -61,41 +61,24 @@ int main(void)
 
 void image_draw(Texture2D* dice_sides, Vector2* image_position)
 {
-    float image_min_x_pos = 1.0 / image_scale;
-    float image_max_x_pos = 500.0 / image_scale;
-    float total_x_distance = image_max_x_pos - image_min_x_pos;
-
-    int image_width = dice_sides[0].width*image_scale;
+    float min_x = 1.0 / image_scale;
+    float max_x = 500.0 / image_scale;
+    float area_center = (min_x + max_x) / 2.0f;
+    float area_width = max_x - min_x;
+    float die_width = dice_sides[0].width * image_scale;
     int image_count = (int)round(dice_count);
-
-
-    float total_image_width = image_width * image_count;
-
-    float gap = 0.0f;
-    float start_x_pos = 0.0f;
-
-    if (image_count == 1)
-    {
-        start_x_pos = (total_x_distance) / 2.0f;
-    }
-    else
-    {
-        int gap_count = image_count - 1;
-        gap = (total_x_distance) / gap_count;
-
-        float used_width = total_image_width + gap * gap_count;
-        start_x_pos = (total_x_distance - used_width) / 2.0f + image_min_x_pos;
-    }
+    int max_capacity = 6;
+    
+    float current_group_span = (image_count - 1) * image_gap;
+    float start_x = area_center - (current_group_span / 2.0f) - (die_width / 2.0f);
 
     for (int i = 0; i < image_count; ++i)
     {
-        float x_offset = i * (image_width + gap);
-        image_position[i].x = start_x_pos + x_offset;
+        image_position[i].x = start_x + (i * image_gap);
         image_position[i].y = image_y_pos;
 
         DrawTextureEx(dice_sides[i], image_position[i], 0, image_scale, WHITE);
-    }
-}
+    }}
 
 void draw_layout(void)
 {
