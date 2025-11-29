@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
+//
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -15,13 +15,15 @@
 Texture2D* load_dice_sides(const char* director);
 void unload_dice_sides(Texture2D* dices);
 void draw_layout(void);
-
+void image_draw(Texture2D* dice_sides, Vector2* image_position);
 
 float dice_count = 0;
 bool auto_roll = false;
 float number_of_rolls = 0;
 
-float image_scale = 0.6f;
+const float image_scale = 0.6f;
+const int image_y_pos = 100;
+const int image_gap = 1;
 
 int main(void)
 {
@@ -30,8 +32,10 @@ int main(void)
 
 	InitWindow(1280, 720, "Dice Distribution Vizualizer");
 	Texture2D* dice_sides = load_dice_sides("asserts/Dice Sides");
+
+
 	
-	Vector2 dice_image_position[6] = {{10/image_scale, 40}, {100/image_scale, 40}, {200/image_scale, 40}, {300/image_scale, 40}, {400/image_scale, 40}, {500/image_scale, 40}};
+	Vector2 dice_image_position[6] = {0};
 
 	SetWindowIcon(icon);
 	SetTargetFPS(60);
@@ -42,14 +46,9 @@ int main(void)
 	while(!WindowShouldClose())
 	{
 	 	BeginDrawing();
-			DrawTextureEx(dice_sides[0], dice_image_position[0],0, 0.6f, WHITE);
-			DrawTextureEx(dice_sides[1], dice_image_position[1],0, 0.6f, WHITE);
-			DrawTextureEx(dice_sides[2], dice_image_position[2],0, 0.6f, WHITE);
-                        DrawTextureEx(dice_sides[3], dice_image_position[3],0, 0.6f, WHITE);
-                        DrawTextureEx(dice_sides[4], dice_image_position[4],0, 0.6f, WHITE);
-                        DrawTextureEx(dice_sides[5], dice_image_position[5],0, 0.6f, WHITE);
-               		draw_layout();
+			image_draw(dice_sides, dice_image_position );
 
+               		draw_layout();
 		EndDrawing();
 
 	}
@@ -58,6 +57,34 @@ int main(void)
 	UnloadImage(icon);
 	UnloadFont(font);
 	return 0;
+}
+
+void image_draw(Texture2D* dice_sides, Vector2* image_position)
+{
+    float min_x = 1.0 / image_scale;
+    float max_x = 500.0 / image_scale;
+    float center_x = 640;
+    float image_width = dice_sides[0].width;
+    int image_count = (int)round(dice_count);
+
+    for( int i = 0; i < 6; ++i) image_position[i].y = image_y_pos;
+
+    if(image_count%2 == 0 || image_count == 1)
+    {
+	    for(int i = 0; i < image_count; i++)
+	    {
+		if((i + 1) < image_count/2)
+		{
+			image_position[i].x = center_x - image_scale*((i)*(image_gap/2) + image_width*i);
+		}
+		else
+		{
+			image_position[i].x = center_x + (i)*(image_gap/2) + image_width*(image_count - 1);
+		}
+	        DrawTextureEx(dice_sides[i], image_position[i], 0, image_scale, WHITE);
+	   }
+
+    }
 }
 
 void draw_layout(void)
