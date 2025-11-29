@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
+//
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -22,8 +22,8 @@ bool auto_roll = false;
 float number_of_rolls = 0;
 
 const float image_scale = 0.6f;
-const int image_y_pos = 40;
-const int image_gap = 100;
+const int image_y_pos = 100;
+const int image_gap = 1;
 
 int main(void)
 {
@@ -63,22 +63,29 @@ void image_draw(Texture2D* dice_sides, Vector2* image_position)
 {
     float min_x = 1.0 / image_scale;
     float max_x = 500.0 / image_scale;
-    float area_center = (min_x + max_x) / 2.0f;
-    float area_width = max_x - min_x;
-    float die_width = dice_sides[0].width * image_scale;
+    float center_x = 640;
+    float image_width = dice_sides[0].width;
     int image_count = (int)round(dice_count);
-    int max_capacity = 6;
-    
-    float current_group_span = (image_count - 1) * image_gap;
-    float start_x = area_center - (current_group_span / 2.0f) - (die_width / 2.0f);
 
-    for (int i = 0; i < image_count; ++i)
+    for( int i = 0; i < 6; ++i) image_position[i].y = image_y_pos;
+
+    if(image_count%2 == 0 || image_count == 1)
     {
-        image_position[i].x = start_x + (i * image_gap);
-        image_position[i].y = image_y_pos;
+	    for(int i = 0; i < image_count; i++)
+	    {
+		if((i + 1) < image_count/2)
+		{
+			image_position[i].x = center_x - image_scale*((i)*(image_gap/2) + image_width*i);
+		}
+		else
+		{
+			image_position[i].x = center_x + (i)*(image_gap/2) + image_width*(image_count - 1);
+		}
+	        DrawTextureEx(dice_sides[i], image_position[i], 0, image_scale, WHITE);
+	   }
 
-        DrawTextureEx(dice_sides[i], image_position[i], 0, image_scale, WHITE);
-    }}
+    }
+}
 
 void draw_layout(void)
 {
