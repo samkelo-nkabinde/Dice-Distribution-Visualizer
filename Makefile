@@ -1,17 +1,20 @@
 CC = gcc
-CFLAGS = -O1 -Wall -std=c99 -Wno-missing-braces -I include/ -I raylib/
-LDFLAGS = -L lib/
-LDLIBS = -lm
-LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm
+CFLAGS = -O1 -Wall -std=c99 -Wno-missing-braces -Iinclude/ -Iraylib/ 
+LDFLAGS = -Llib/
+LIBS = -lraylib -lopengl32 -lgdi32 -lwinmm -lm
 
-SRC = main.c
+SRC = main.c $(wildcard src/*.c)
+OBJ = $(SRC:.c=.o)
 OUT = main.exe
 
 all: $(OUT)
 
-$(OUT): $(SRC)
-	$(CC) $(SRC) -o $(OUT) $(CFLAGS) $(LDFLAGS) $(LIBS) $(LDLIBS)
+$(OUT): $(OBJ)
+	$(CC) $(OBJ) -o $(OUT) $(LDFLAGS) $(LIBS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	del /Q $(OUT)
+	del /Q $(OUT) *.o src\*.o
 

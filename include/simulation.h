@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include "raymath.h"
 #define MAX_DICE 6
 #define MAX_SUM (MAX_DICE * 6 + 1) // +1 for zero index
 
@@ -13,8 +13,8 @@ typedef struct {
     size_t total_rolls;          
     int frequency[MAX_SUM]; 
     int max_frequency;               
-    bool isauto_rolling;             
-    float auto_roll_Speed;
+    bool is_auto_rolling;             
+    int auto_roll_speed;
 
 } simulation_state_t;
 

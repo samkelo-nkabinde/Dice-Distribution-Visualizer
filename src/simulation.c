@@ -1,6 +1,8 @@
 #include <string.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
-#include "raymath.h"
+
+#include "raylib.h"
 #include "simulation.h"
 
 
@@ -31,7 +33,7 @@ void roll_dice(simulation_state_t* simulator)
 		simulator->frequency[sum]++;
 		simulator->total_rolls++;
 		if (simulator->frequency[sum] > simulator->max_frequency)
-			simulator->max_frequency = simulator->frequncy[sum];			
+			simulator->max_frequency = simulator->frequency[sum];			
 	}
 }
 
