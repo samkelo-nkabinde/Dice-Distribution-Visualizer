@@ -27,7 +27,6 @@ void main_layout()
 	GuiSlider((Rectangle){ 1000, 320, 220, 20 }, "", NULL, &dice_count_input, 1.0f, 6.0f);
 	DrawText(TextFormat("%i", (int)round(dice_count_input)), 1180, 280, 20, LIGHTGRAY);
 
-
 	DrawText("Auto Roll Speed:", 1000, 640, 20, LIGHTGRAY);
 	DrawText(TextFormat("%i", (int)round(auto_roll_speed_input)), 1180, 640, 20, LIGHTGRAY);
 	GuiSlider((Rectangle){ 1000, 600, 220, 20 }, "", NULL, &auto_roll_speed_input, 1.0f, 5.0f);

@@ -25,30 +25,38 @@ int main()
 	simulation_state_t sim;
 	init_simulation(&sim);
 	
-	int current_dice_count = (int)round(dice_count_input);
-	int prev_dice_count = current_dice_count;
+	int current_dice_count = 0;
+	int prev_dice_count = 0;
 
-	if(sim.is_auto_rolling)
-	{
-		for(int i = 0; i < sim.auto_roll_speed; ++i) roll_dice(&sim);
-	}
-	
-	if(current_dice_count > prev_dice_count)
-	{
-		sim.dice_count++;
-		reset_simulation(&sim);
-	}
-
-	if(prev_dice_count < current_dice_count)
-	{
-		sim.dice_count--;
-		reset_simulation(&sim);
-	}
 
 	while(!WindowShouldClose())
 	{
 
 		BeginDrawing();
+			main_layout();
+			current_dice_count = (int)round(dice_count_input);
+
+			if(sim.is_auto_rolling)
+			{
+				for(int i = 0; i < sim.auto_roll_speed; ++i) roll_dice(&sim);
+			}
+	
+			if(current_dice_count > prev_dice_count && current_dice_count < 6)
+			{
+				current_dice_count = (int)round(dice_count_input);
+				prev_dice_count = current_dice_count;
+				sim.dice_count++;	
+				reset_simulation(&sim);
+			}
+
+			if(prev_dice_count < current_dice_count && prev_dice_count < 6)
+			{
+				current_dice_count = (int)round(dice_count_input);
+				prev_dice_count = current_dice_count;
+				sim.dice_count--;
+				reset_simulation(&sim);
+			}
+			printf("%d\n", sim.dice_count);
 
 			if(draw_button(roll_button, "ROLL" , false)) roll_dice(&sim);
 			
@@ -79,7 +87,26 @@ int main()
 				int text_width = MeasureText(label, 10);
 				DrawText(label, chart_x - 10 - text_width, (int)y_pos - 5, 10, LIGHTGRAY);
 			}
-			main_layout();
+			int min_sum = sim.dice_count;
+			int max_sum = sim.dice_count*6;
+			int bar_count = max_sum - min_sum + 1;
+			if(bar_count > 0)
+			{
+				float bar_width = (float)chart_width / bar_count;
+				for(int i = 0; i <= max_sum; ++i)
+				{
+					int count = sim.frequency[i];
+					float bar_height = ((float)count / axis_max )*(chart_height - 20);
+					float x_pos = chart_x + (i - min_sum)*bar_width;
+					float y_pos = (chart_y + chart_height) - bar_height;
+					DrawRectangleRec((Rectangle){x_pos + 1, y_pos, bar_width - 2, bar_height}, SKYBLUE);
+					
+					const char* label = TextFormat("%d", i);
+					int label_width = MeasureText(label, 10);
+					DrawText(label, (int)x_pos + bar_width/2 - label_width/2, chart_y + chart_height + 5, 10, LIGHTGRAY);
+				}
+			}
+			
 
 		EndDrawing();
 	}
