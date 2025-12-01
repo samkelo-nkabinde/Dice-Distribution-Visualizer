@@ -5,6 +5,7 @@
 #include "raylib.h"
 #include "simulation.h"
 
+int roll_outcome = 0;
 
 void init_simulation(simulation_state_t* simulator)
 {
@@ -27,7 +28,11 @@ void reset_simulation(simulation_state_t* simulator)
 void roll_dice(simulation_state_t* simulator)
 {
 	int sum = 0;
-	for(int i = 0; i < simulator->dice_count; ++i) sum += GetRandomValue(1, 6);
+	for(int i = 0; i < simulator->dice_count; ++i)
+	{
+		roll_outcome = GetRandomValue(1,6);
+		sum += roll_outcome;
+	}
 
 	if(sum < MAX_SUM)
 	{

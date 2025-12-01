@@ -7,6 +7,8 @@
 #define MAX_DICE 6
 #define MAX_SUM (MAX_DICE * 6 + 1) // +1 for zero index
 
+extern int roll_outcome;
+
 typedef struct {
 
     int dice_count;                
