@@ -1,1 +1,1 @@
-# Statistics of rolling dice
+# Dice Distribution Visualizer
