@@ -12,7 +12,8 @@ void init_simulation(simulation_state_t* simulator)
 	simulator->total_rolls = 0;
 	simulator->max_frequency = 0;
 	simulator->is_auto_rolling = false;
-	simulator->auto_roll_speed = 1.0;
+	simulator->rolls_per_frame = 0.2;
+	simulator->rolls_pass = 0.0;
 	memset(simulator->frequency, 0, MAX_SUM*sizeof(int));
 }
 

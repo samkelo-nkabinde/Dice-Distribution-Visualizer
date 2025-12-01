@@ -8,6 +8,8 @@
 #define SCREEN_HEIGHT 720
 #define FRAME_RATE 30
 
+void control_dice_count(simulation_state_t* sim);
+void control_roll_speed(simulation_state_t* sim);
 
 int main()
 {
@@ -25,38 +27,14 @@ int main()
 	simulation_state_t sim;
 	init_simulation(&sim);
 	
-	int current_dice_count = 0;
-	int prev_dice_count = 0;
-
-
 	while(!WindowShouldClose())
 	{
-
+	
+		if(sim.is_auto_rolling) control_roll_speed(&sim);
+	
 		BeginDrawing();
 			main_layout();
-			current_dice_count = (int)round(dice_count_input);
-
-			if(sim.is_auto_rolling)
-			{
-				for(int i = 0; i < sim.auto_roll_speed; ++i) roll_dice(&sim);
-			}
-	
-			if(current_dice_count > prev_dice_count && current_dice_count < 6)
-			{
-				current_dice_count = (int)round(dice_count_input);
-				prev_dice_count = current_dice_count;
-				sim.dice_count++;	
-				reset_simulation(&sim);
-			}
-
-			if(prev_dice_count < current_dice_count && prev_dice_count < 6)
-			{
-				current_dice_count = (int)round(dice_count_input);
-				prev_dice_count = current_dice_count;
-				sim.dice_count--;
-				reset_simulation(&sim);
-			}
-			printf("%d\n", sim.dice_count);
+			control_dice_count(&sim);	
 
 			if(draw_button(roll_button, "ROLL" , false)) roll_dice(&sim);
 			
@@ -99,11 +77,13 @@ int main()
 					float bar_height = ((float)count / axis_max )*(chart_height - 20);
 					float x_pos = chart_x + (i - min_sum)*bar_width;
 					float y_pos = (chart_y + chart_height) - bar_height;
-					DrawRectangleRec((Rectangle){x_pos + 1, y_pos, bar_width - 2, bar_height}, SKYBLUE);
+					DrawRectangleRec((Rectangle){x_pos + 1, y_pos, bar_width - 4, bar_height}, SKYBLUE);
 					
+				
 					const char* label = TextFormat("%d", i);
 					int label_width = MeasureText(label, 10);
-					DrawText(label, (int)x_pos + bar_width/2 - label_width/2, chart_y + chart_height + 5, 10, LIGHTGRAY);
+					if(((int)x_pos + bar_width/2 - label_width/2) > 80)
+						DrawText(label, (int)x_pos + bar_width/2 - label_width/2, chart_y + chart_height + 5, 10, LIGHTGRAY);
 				}
 			}
 			
@@ -113,4 +93,38 @@ int main()
 	UnloadImage(icon);
 	UnloadFont(main_font);
 	unload_dice_sides(dice_sides);
+}
+
+void control_dice_count(simulation_state_t* sim)
+{
+	int dice_count = (int)round(dice_count_input);
+	if(dice_count > sim->dice_count)
+	{
+		if(sim->dice_count < MAX_DICE)
+		{
+			sim->dice_count ++; 				
+			reset_simulation(sim);
+		}
+	}
+
+	if(dice_count < sim->dice_count)
+	{
+		if(sim->dice_count > 1)
+		{
+			sim->dice_count --; 
+			reset_simulation(sim);
+		}
+	}
+}
+
+void control_roll_speed(simulation_state_t* sim)
+{
+	sim->rolls_per_frame = auto_roll_speed_input*0.1;
+	sim->rolls_pass += sim->rolls_per_frame;
+	while(sim->rolls_pass >= 1.0)
+	{
+		roll_dice(sim);
+		sim->rolls_pass -= 1.0;
+	}
+
 }

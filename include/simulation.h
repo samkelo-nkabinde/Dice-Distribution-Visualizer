@@ -14,7 +14,8 @@ typedef struct {
     int frequency[MAX_SUM]; 
     int max_frequency;               
     bool is_auto_rolling;             
-    int auto_roll_speed;
+    float rolls_per_frame;
+    float rolls_pass;
 
 } simulation_state_t;
 
