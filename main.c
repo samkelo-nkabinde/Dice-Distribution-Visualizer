@@ -10,6 +10,10 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 #define FRAME_RATE 30
+chart_width = SCREEN_WIDTH - 500;
+chart_height = SCREEN_HEIGHT - 380;
+x_start_pos = 100;
+y_start_pos = 300;
 
 
 void control_dice_count(simulation_state_t* sim);
@@ -53,10 +57,6 @@ int main()
 				sim.is_auto_rolling = !sim.is_auto_rolling;
 			}
 
-			chart_width = SCREEN_WIDTH - 500;
-			chart_height = SCREEN_HEIGHT - 380;
-			x_start_pos = 100;
-			y_start_pos = 300;
 			int axis_max =(sim.max_frequency > 0) ? sim.max_frequency : 10;
 			draw_chart_layout(axis_max, main_font);
 			DrawText(TextFormat("Total of rolls: %d", sim.total_rolls), 700, 280, 20, LIGHTGRAY); 
