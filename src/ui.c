@@ -36,12 +36,12 @@ void main_layout()
 
 bool draw_button(Rectangle rect, const char* text, bool active)
 {	bool clicked = false;
-	Vector2 mousePoint = GetMousePosition();
-	bool isHover = CheckCollisionPointRec(mousePoint, rect);
+	Vector2 mouse_point = GetMousePosition();
+	bool is_hover = CheckCollisionPointRec(mouse_point, rect);
     
 	Color color = active ? SKYBLUE : LIGHTGRAY;
-	if (isHover) color = active ? BLUE : GRAY;
-	if (active && isHover) color = DARKBLUE;
+	if (is_hover) color = active ? BLUE : GRAY;
+	if (active && is_hover) color = DARKBLUE;
     
 	DrawRectangleRec(rect, color);
 	DrawRectangleLinesEx(rect, 2, DARKGRAY);
@@ -49,7 +49,7 @@ bool draw_button(Rectangle rect, const char* text, bool active)
 	int textWidth = MeasureText(text, 20);
 	DrawText(text, (int)(rect.x + rect.width/2 - textWidth/2), (int)(rect.y + rect.height/2 - 10), 20, active ? WHITE : BLACK);
     
-	if (isHover && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) 
+	if (is_hover && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) 
 	{
 	    clicked = true;
 	}
