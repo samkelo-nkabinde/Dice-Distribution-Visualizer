@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
+
 #include "raylib.h"
 #include "assets.h"
 #include "ui.h"
@@ -9,8 +11,10 @@
 #define SCREEN_HEIGHT 720
 #define FRAME_RATE 30
 
+
 void control_dice_count(simulation_state_t* sim);
 void control_roll_speed(simulation_state_t* sim);
+void draw_dice(Vector2* position, Texture2D* images, simulation_state_t* sim);
 
 int main()
 {
@@ -24,6 +28,8 @@ int main()
 	GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
 
 	Texture2D* dice_sides = load_dice_sides("assets/Dice Sides");
+	Vector2 image_position[MAX_DICE] = {0};
+	for(int i = 0; i < MAX_DICE; ++i) image_position[i].y = 90;
 
 	simulation_state_t sim;
 	init_simulation(&sim);
@@ -35,6 +41,7 @@ int main()
 	
 		BeginDrawing();
 			main_layout();
+			draw_dice(image_position, dice_sides, &sim);
 			control_dice_count(&sim);	
 
 			if(draw_button(roll_button, "ROLL" , false)) roll_dice(&sim);
@@ -87,5 +94,62 @@ void control_roll_speed(simulation_state_t* sim)
 		roll_dice(sim);
 		sim->rolls_pass -= 1.0;
 	}
+}
 
+void draw_dice(Vector2* position, Texture2D* images, simulation_state_t* sim)
+{
+	switch((int)round(dice_count_input))
+	{
+		case 1:
+		{
+			position[0].x = 580;
+			DrawTextureEx(images[sim->rolls[0] - 1], 
+					position[0], 
+					0.0, 0.6, 
+					WHITE);
+			break;
+		}
+		case 2:
+		{
+			position[0].x = 480;
+			position[1].x = 640;
+			for(int i = 0; i < 2; ++i)
+			{
+				DrawTextureEx(images[sim->rolls[i] - 1], 
+						position[i],
+						0.0, 0.6, 
+						WHITE);
+			}
+			break;
+		}
+		case 3:
+		{
+			position[0].x = 580;
+			position[1].x = 420;
+			position[2].x = 740;
+			for(int i = 0; i < 3; ++i)
+			{
+				DrawTextureEx(images[sim->rolls[i] - 1], 
+						position[i],
+						0.0, 0.6, 
+						WHITE);
+			}
+
+			break;
+		}
+		case 4:
+		{
+			break;
+		}
+		case 5:
+		{
+			break;
+		}
+		case 6:
+		{
+			break;
+		}
+		default:
+			return;
+	}
 }

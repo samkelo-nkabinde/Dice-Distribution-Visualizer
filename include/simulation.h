@@ -7,7 +7,6 @@
 #define MAX_DICE 6
 #define MAX_SUM (MAX_DICE * 6 + 1) // +1 for zero index
 
-extern int roll_outcome;
 
 typedef struct {
 
@@ -18,6 +17,7 @@ typedef struct {
     bool is_auto_rolling;             
     float rolls_per_frame;
     float rolls_pass;
+    int rolls[MAX_DICE];
 
 } simulation_state_t;
 
