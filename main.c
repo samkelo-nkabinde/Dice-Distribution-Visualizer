@@ -139,6 +139,17 @@ void draw_dice(Vector2* position, Texture2D* images, simulation_state_t* sim)
 		}
 		case 4:
 		{
+			position[0].x = 480;
+			position[1].x = 640;
+			position[2].x = 840;
+			position[2].x = 880;
+			for(int i = 0; i < 4; ++i)
+			{
+				DrawTextureEx(images[sim->rolls[i] - 1], 
+						position[i],
+						0.0, 0.6, 
+						WHITE);
+			}
 			break;
 		}
 		case 5:
