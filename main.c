@@ -98,68 +98,104 @@ void control_roll_speed(simulation_state_t* sim)
 
 void draw_dice(Vector2* position, Texture2D* images, simulation_state_t* sim)
 {
-	switch((int)round(dice_count_input))
+	switch ((int)round(dice_count_input))
 	{
 		case 1:
 		{
 			position[0].x = 580;
-			DrawTextureEx(images[sim->rolls[0] - 1], 
-					position[0], 
-					0.0, 0.6, 
-					WHITE);
+
+			DrawTextureEx(images[sim->rolls[0] - 1],
+				position[0],
+				0.0f, 0.6f,
+				WHITE);
 			break;
 		}
+
 		case 2:
 		{
 			position[0].x = 480;
 			position[1].x = 640;
-			for(int i = 0; i < 2; ++i)
+
+			for (int i = 0; i < 2; ++i)
 			{
-				DrawTextureEx(images[sim->rolls[i] - 1], 
-						position[i],
-						0.0, 0.6, 
-						WHITE);
+				DrawTextureEx(images[sim->rolls[i] - 1],
+					position[i],
+					0.0f, 0.6f,
+					WHITE);
 			}
 			break;
 		}
+
 		case 3:
 		{
 			position[0].x = 580;
 			position[1].x = 420;
 			position[2].x = 740;
-			for(int i = 0; i < 3; ++i)
-			{
-				DrawTextureEx(images[sim->rolls[i] - 1], 
-						position[i],
-						0.0, 0.6, 
-						WHITE);
-			}
 
+			for (int i = 0; i < 3; ++i)
+			{
+				DrawTextureEx(images[sim->rolls[i] - 1],
+					position[i],
+					0.0f, 0.6f,
+					WHITE);
+			}
 			break;
 		}
+
 		case 4:
 		{
-			position[0].x = 480;
-			position[1].x = 640;
-			position[2].x = 840;
-			position[2].x = 880;
-			for(int i = 0; i < 4; ++i)
+			position[0].x = 360;
+			position[1].x = 500;
+			position[2].x = 660;
+			position[3].x = 820;
+
+			for (int i = 0; i < 4; ++i)
 			{
-				DrawTextureEx(images[sim->rolls[i] - 1], 
-						position[i],
-						0.0, 0.6, 
-						WHITE);
+				DrawTextureEx(images[sim->rolls[i] - 1],
+					position[i],
+					0.0f, 0.6f,
+					WHITE);
 			}
 			break;
 		}
+
 		case 5:
 		{
+			position[0].x = 280;
+			position[1].x = 430;
+			position[2].x = 580;
+			position[3].x = 730;
+			position[4].x = 880;
+
+			for (int i = 0; i < 5; ++i)
+			{
+				DrawTextureEx(images[sim->rolls[i] - 1],
+					position[i],
+					0.0f, 0.6f,
+					WHITE);
+			}
 			break;
 		}
+
 		case 6:
 		{
+			position[0].x = 220;
+			position[1].x = 360;
+			position[2].x = 500;
+			position[3].x = 660;
+			position[4].x = 800;
+			position[5].x = 940;
+
+			for (int i = 0; i < 6; ++i)
+			{
+				DrawTextureEx(images[sim->rolls[i] - 1],
+					position[i],
+					0.0f, 0.6f,
+					WHITE);
+			}
 			break;
 		}
+
 		default:
 			return;
 	}
